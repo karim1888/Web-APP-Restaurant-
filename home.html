@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toomburg - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-image: url('{{ url_for("static", filename="images/restaurant.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #800020;
+            font-size: 36px;
+            margin-bottom: 15px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #4A4A4A;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h3 {
+            color: #800020;
+            font-size: 24px;
+            margin-bottom: 25px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            background-color: #800020;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+        }
+
+        .btn-admin {
+            background-color: #600018;
+        }
+
+        .btn:hover {
+            background-color: #FFD700;
+            color: #800020;
+            transform: scale(1.05);
+        }
+		.flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #f5c6cb;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .flash-success {
+            color: #155724;
+            background-color: #d4edda;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #c3e6cb;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+{% if error %}
+<div class="flash-error">{{ error }}</div>
+{% endif %}
+{% if success %}
+<div class="flash-success">{{ success }}</div>
+{% endif %}
+    <div class="content-wrapper">
+        <h1>Welcome to Toomburg Restaurant!</h1>
+        <p>Delicious food, amazing ambiance.</p>
+
+        <h3>What would you like to do?</h3>
+        
+        <div class="button-group">
+            <a href="{{ url_for('reserve') }}" class="btn">
+                Reserve a Table
+            </a>
+            <a href="{{ url_for('order') }}" class="btn">
+                Order a Plate
+            </a>
+
+            {% if is_admin %}
+                <a href="{{ url_for('admin_panel') }}" class="btn btn-admin">
+                    Admin Dashboard
+                </a>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('logout') }}">
+                <button type="submit" class="btn" style="width: 100%">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

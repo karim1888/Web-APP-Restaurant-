@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #4A4A4A;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: #800020;
+            font-size: 40px;
+            margin-bottom: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        h3 {
+            color: #800020;
+            font-size: 28px;
+            margin: 20px 0 10px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        ul {
+            list-style-type: none;
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 30px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        li {
+            background: #fff;
+            margin: 8px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        li:hover {
+            transform: scale(1.02);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        button, .home-btn {
+            background-color: #800020;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .home-btn {
+            background-color: #4A4A4A;
+        }
+
+        button:hover, .home-btn:hover {
+            transform: scale(1.05);
+        }
+
+        button:hover {
+            background-color: #FFD700;
+            color: #800020;
+        }
+
+        .home-btn:hover {
+            background-color: #333;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h2>Admin Dashboard</h2>
+
+    <h3>Registered Users:</h3>
+    <ul>
+        {% for u in users %}
+            <li>First Name: {{ u.first_name }} | Last Name: {{ u.last_name }} | Email: {{ u.email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Reservations:</h3>
+    <ul>
+        {% for r in reservations %}
+            <li>
+                User: {{ r.user.first_name }} {{ r.user.last_name }} ({{ r.user.email }}) |
+                Date: {{ r.date }} |
+                Time: {{ r.time }} |
+                Guests: {{ r.guests }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Orders:</h3>
+    <ul>
+        {% for o in orders %}
+            <li>
+                User: {{ o.user.email }} |
+                Item: {{ o.item }}|
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="button-group">
+        <a href="{{ url_for('home') }}" class="home-btn">
+            Return to Home
+        </a>
+        <form method="POST" action="{{ url_for('logout') }}">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+</body>
+</html>

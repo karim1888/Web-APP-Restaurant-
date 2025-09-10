@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Toomburg</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+		
+		.flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-error {
+            color: #dc3545;
+            background-color: #f8d7da;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #f5c6cb;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .flash-success {
+            color: #155724;
+            background-color: #d4edda;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid #c3e6cb;
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #800020;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #800020;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .password-wrapper {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #800020;
+        }
+
+        .password-rules {
+            text-align: left;
+            margin: 15px 0;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .password-rules ul {
+            list-style: none;
+            padding-left: 15px;
+        }
+
+        .password-rules li {
+            margin: 5px 0;
+        }
+
+        .password-rules li::before {
+            content: "•";
+            color: #800020;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        button {
+            background-color: #800020;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        button:hover {
+            background-color: #FFD700;
+            color: #800020;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        p a {
+            color: #800020;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        p a:hover {
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Register to Toomburg</h2>
+		<!-- Messages -->
+        {% if error %}
+        <div class="flash-error">{{ error }}</div>
+        {% endif %}
+        <form method="POST">
+            <input type="text" name="first_name" placeholder="First Name" required>
+            <input type="text" name="last_name" placeholder="Last Name" required>
+            <input type="email" name="email" placeholder="Enter your email" required>
+            
+            <div class="password-wrapper">
+                <input type="password" name="password" id="password" 
+                       placeholder="Enter your password"
+                       pattern="(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       required>
+                <i class="password-toggle fas fa-eye" onclick="togglePassword('password')"></i>
+            </div>
+
+            <div class="password-wrapper">
+                <input type="password" name="confirm" id="confirm" 
+                       placeholder="Confirm your password"
+                       required>
+                <i class="password-toggle fas fa-eye" onclick="togglePassword('confirm')"></i>
+            </div>
+
+            <div class="password-rules">
+                <ul>
+                    <li>Minimum 8 characters</li>
+                    <li>At least one uppercase letter</li>
+                    <li>At least one lowercase letter</li>
+                    <li>At least one number</li>
+                    <li>At least one special character</li>
+                </ul>
+            </div>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+
+    <script>
+        function togglePassword(fieldId) {
+            const passwordField = document.getElementById(fieldId);
+            const toggleIcon = document.querySelector(`#${fieldId} + .password-toggle`);
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                toggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                toggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        }
+
+        // Password confirmation validation
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
